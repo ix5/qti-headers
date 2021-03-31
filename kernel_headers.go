@@ -22,16 +22,15 @@ func qtiKernelHeadersDefaultsFactory() android.Module {
 
 func qtiKernelHeadersDefaults(ctx android.LoadHookContext) {
 	version := ctx.Config().VendorConfig("qti_kernel_headers").String("version")
+	qtimodule := fmt.Sprintf("qti_kernel_headers_%s", version)
 
 	p := struct {
 		Export_header_lib_headers []string
 		Header_libs []string
-	}{}
-
-	var qtimodule = fmt.Sprintf("qti_kernel_headers_%s", version)
-
-	p.Export_header_lib_headers = []string{qtimodule}
-	p.Header_libs = []string{qtimodule}
+	}{
+		[]string{qtimodule},
+		[]string{qtimodule},
+    }
 
 	ctx.AppendProperties(&p)
 }
