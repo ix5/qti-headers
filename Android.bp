@@ -1,0 +1,35 @@
+// Select kernel headers based on version
+
+// This repo needs to live inside a parent dir of:
+// kernel/sony/msm-X.Y/common-headers
+
+// Use as follows:
+// SOONG_CONFIG_NAMESPACES += qti_kernel_headers
+// SOONG_CONFIG_qti_kernel_headers := version
+// SOONG_CONFIG_qti_kernel_headers_version := 4.14
+
+bootstrap_go_package {
+    name: "soong-qti_kernel_headers_defaults",
+    pkgPath: "kernel/sony/qti-headers",
+    deps: [
+        "blueprint",
+        "blueprint-pathtools",
+        "soong",
+        "soong-android",
+        "soong-cc",
+    ],
+    srcs: [
+        "kernel_headers.go",
+    ],
+    pluginFor: ["soong_build"],
+}
+
+qti_kernel_headers_defaults {
+    name: "qti_kernel_headers_defaults",
+}
+
+cc_library_headers {
+    name: "qti_kernel_headers",
+    defaults: ["qti_kernel_headers_defaults"],
+    vendor_available: true,
+}
